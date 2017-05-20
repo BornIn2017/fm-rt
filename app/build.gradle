@@ -1,0 +1,73 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.lucidware.fm_rt"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        def protocol = "http://"
+        def endpoint = "pinky.futuremind.com"
+        buildConfigField 'String', 'ENDPOINT', "\"${protocol}${endpoint}\""
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+kapt {
+    generateStubs = true
+}
+
+dependencies {
+    compile androidAppcompat
+    compile androidDesign
+    compile androidReyclerView
+    compile androidSupport
+    compile dagger
+    compile kotlinLanguageDependency
+    compile(mvp, { exclude group: 'com.android.support' })
+    compile picasso
+    compile retrofit
+    compile retrofitCallAdapter
+    compile retrofitGsonConverter
+    compile retrofitScalarsConverter
+    compile rxJava
+    compile rxAndroid
+    compile cupboard
+
+    kapt daggerCompiler
+
+    testCompile junit
+    testCompile mockito
+    testCompile mvpTest
+    testCompile robolectric
+    testCompile robolectricShadows
+    testCompile(assertJ) {
+        exclude module: 'support-annotations'
+    }
+}

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FM-RT</string>
+    <string name="title_order_detail">Order Detail</string>
+    <string name="no_details">No details available.</string>
+</resources>
